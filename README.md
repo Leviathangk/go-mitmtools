@@ -19,8 +19,8 @@ go get github.com/Leviathangk/go-mitmtools@latest
 - AddContentToTailRule：在指定文件尾部添加代码
 - AddResponseHeader：添加指定请求头
 - RemoveResponseHeader：移除指定请求头
-- AddScriptToHeadRule：在 html 页面（body、head，取其一）头部插入一个 script 节点，里面是自己的代码
-- AddScriptToTailRule：在 html 页面（body、head，取其一）尾部插入一个 script 节点，里面是自己的代码
+- AddScriptToHeadRule：在 html 标签（body、head，取其一）开始后插入一个 script 节点，里面是自己的代码
+- AddScriptToTailRule：在 html 标签（body、head，取其一）结束前插入一个 script 节点，里面是自己的代码
 
 # 案例
 
@@ -60,13 +60,13 @@ func main() {
 		ToContent:   "百度一下，你也不知道",
 	})
 
-	// 在 html 标签后插入 script 标签，并添加 js 代码：body 无就 head
+	// 在 html 标签开始后插入 script 标签，并添加 js 代码：body 无就 head
 	opts.AddHandler(&handler.AddScriptToHeadRule{
 		Pattern: "^https://www.baidu.com/$",
 		Content: []byte("console.log('我不是百度');"),
 	})
 
-	// 在 html 标签前插入 script 标签，并添加 js 代码：body 无就 head
+	// 在 html 标签结束前插入 script 标签，并添加 js 代码：body 无就 head
 	opts.AddHandler(&handler.AddScriptToTailRule{
 		Pattern: "^https://www.baidu.com/$",
 		Content: []byte("console.log('我不是百度');"),

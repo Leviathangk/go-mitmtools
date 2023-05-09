@@ -34,13 +34,13 @@ func main() {
 		ToContent:   "百度一下，你也不知道",
 	})
 
-	// 在 html 标签后插入 script 标签，并添加 js 代码：body 无就 head
+	// 在 html 标签开始后插入 script 标签，并添加 js 代码：body 无就 head
 	opts.AddHandler(&handler.AddScriptToHeadRule{
 		Pattern: "^https://www.baidu.com/$",
 		Content: []byte("console.log('我不是百度');"),
 	})
 
-	// 在 html 标签前插入 script 标签，并添加 js 代码：body 无就 head
+	// 在 html 标签结束前插入 script 标签，并添加 js 代码：body 无就 head
 	opts.AddHandler(&handler.AddScriptToTailRule{
 		Pattern: "^https://www.baidu.com/$",
 		Content: []byte("console.log('我不是百度');"),
