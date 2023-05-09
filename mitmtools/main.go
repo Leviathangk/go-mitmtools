@@ -1,9 +1,8 @@
 package mitmtools
 
 import (
+	"github.com/Leviathangk/go-glog/glog"
 	"github.com/Leviathangk/go-mitmtools/mitmtools/handler"
-	"log"
-
 	"github.com/lqqyt2423/go-mitmproxy/proxy"
 )
 
@@ -34,7 +33,7 @@ func Start(opts *MitmConfig, handlers ...handler.Addon) error {
 		Upstream:          opts.Upstream,
 	})
 	if err != nil {
-		log.Fatal(err)
+		return err
 	}
 
 	// 修改配置
@@ -66,7 +65,7 @@ func Start(opts *MitmConfig, handlers ...handler.Addon) error {
 	// 添加响应体重新计算
 	p.AddAddon(new(recalculateRule))
 
-	log.Fatal(p.Start())
+	glog.Fatal(p.Start())
 
 	return nil
 }

@@ -70,5 +70,5 @@ func main() {
 		Header:  []string{"Last-Modified", "Content-Type"},
 	})
 
-	glog.Fatalln(mitmtools.Start(opts))
+	glog.Fatal(mitmtools.Start(opts))
 }
