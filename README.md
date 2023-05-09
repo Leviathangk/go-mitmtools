@@ -19,8 +19,8 @@ go get github.com/Leviathangk/go-mitmtools@latest
 - AddContentToTailRule：在指定文件尾部添加代码
 - AddResponseHeader：添加指定请求头
 - RemoveResponseHeader：移除指定请求头
-- AddScriptToHeadRule：在 html 页面（<body>、<head>，取其一）头部插入一个 script 节点，里面是自己的代码
-- AddScriptToTailRule：在 html 页面（</body>、</head>，取其一）尾部插入一个 script 节点，里面是自己的代码
+- AddScriptToHeadRule：在 html 页面（body、head，取其一）头部插入一个 script 节点，里面是自己的代码
+- AddScriptToTailRule：在 html 页面（body、head，取其一）尾部插入一个 script 节点，里面是自己的代码
 
 # 案例
 
