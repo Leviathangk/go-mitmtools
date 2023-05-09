@@ -28,8 +28,8 @@ go get github.com/Leviathangk/go-mitmtools@latest
 package main
 
 import (
-	"mitmtools/mitmtools"
-	"mitmtools/mitmtools/handler"
+	"github.com/Leviathangk/go-mitmtools/mitmtools"
+	"github.com/Leviathangk/go-mitmtools/mitmtools/handler"
 	"strconv"
 )
 
