@@ -1,9 +1,18 @@
 # 简介
+
 Mitmtools 是用 go 语言实现的方便处理响应的工具集  
 通过正则匹配 url 并进行对应的处理
 
+# 安装
+
+```
+go get github.com/Leviathangk/go-mitmtools@latest
+```
+
 # Handler
+
 主要有以下 Handler
+
 - ReplaceFileRule：替换全部响应体
 - ReplaceContentRule：替换部分响应体
 - AddContentToHeadRule：在指定文件头部添加代码
@@ -14,6 +23,7 @@ Mitmtools 是用 go 语言实现的方便处理响应的工具集
 - AddScriptToTailRule：在 html 页面（</body>、</head>，取其一）尾部插入一个 script 节点，里面是自己的代码
 
 # 案例
+
 ```
 package main
 
