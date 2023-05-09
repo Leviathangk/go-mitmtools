@@ -17,7 +17,7 @@ type MitmConfig struct {
 	handlers          []handler.Addon
 }
 
-// 添加规则
+// AddHandler 添加规则
 func (m *MitmConfig) AddHandler(h handler.Addon) {
 	m.handlers = append(m.handlers, h)
 }
