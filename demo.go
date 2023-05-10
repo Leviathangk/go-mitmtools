@@ -72,8 +72,20 @@ func main() {
 
 	// 输出含有指定字符的 url
 	opts.AddHandler(&handler.FindContentRule{
-		Pattern: "", // 为空则为任何响应
-		Content: "百度一下",
+		Pattern:        "", // 为空则为任何响应
+		ContentPattern: "百度一下",
+	})
+
+	// 输出含有指定 Cookie 的 url：匹配的就是 document.cookie 后的那部分
+	opts.AddHandler(&handler.FindCookieRule{
+		Pattern:    "^https://www.baidu.com/$",
+		KeyPattern: []string{"BAIDUID"},
+	})
+
+	// 输出含有指定 请求头 的 url：匹配的是请求头的 key
+	opts.AddHandler(&handler.FindHeaderRule{
+		Pattern:    "^https://www.baidu.com/$",
+		KeyPattern: []string{"Bdqid", "Set-Cookie"},
 	})
 
 	glog.Fatal(mitmtools.Start(opts))

@@ -17,9 +17,9 @@ type Addon interface {
 	Check() error // 检查输入参数
 }
 
-// IsMatch 判断是否匹配指定 url
-func IsMatch(pattern, url string) bool {
-	res, err := regexp.MatchString(pattern, url)
+// IsMatch 判断是否匹配指定字符串
+func IsMatch(pattern, s string) bool {
+	res, err := regexp.MatchString(pattern, s)
 	if err != nil {
 		return false
 	}
