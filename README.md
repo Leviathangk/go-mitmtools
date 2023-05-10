@@ -22,8 +22,8 @@ go get github.com/Leviathangk/go-mitmtools@latest
 - AddScriptToHeadRule：在 html 标签（body、head，取其一）开始后插入一个 script 节点，里面是自己的代码
 - AddScriptToTailRule：在 html 标签（body、head，取其一）结束前插入一个 script 节点，里面是自己的代码
 - FindContentRule：输出含有指定字符的 url
-- FindCookieRule：输出含有指定 Cookie 的 url：匹配的就是 document.cookie 后的那部分
-- FindHeaderRule：输出含有指定 请求头 的 url：匹配的是请求头的 key
+- FindCookieRule：输出含有指定 响应 Cookie 的 url：匹配的就是 document.cookie 后的那部分
+- FindHeaderRule：输出含有指定 响应头 的 url：匹配的是响应头的 key
 
 # 案例
 
@@ -111,7 +111,7 @@ func main() {
 		KeyPattern: []string{"BAIDUID"},
 	})
 
-	// 输出含有指定 请求头 的 url：匹配的是请求头的 key
+	// 输出含有指定 响应头 的 url：匹配的是响应头的 key
 	opts.AddHandler(&handler.FindHeaderRule{
 		Pattern:    "^https://www.baidu.com/$",
 		KeyPattern: []string{"Bdqid", "Set-Cookie"},
