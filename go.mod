@@ -3,7 +3,7 @@ module github.com/Leviathangk/go-mitmtools
 go 1.20
 
 require (
-	github.com/Leviathangk/go-glog v0.0.9
+	github.com/Leviathangk/go-glog v0.0.10
 	github.com/lqqyt2423/go-mitmproxy v1.6.0
 )
 

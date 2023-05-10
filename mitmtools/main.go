@@ -38,6 +38,7 @@ func Start(opts *MitmConfig, handlers ...handler.Addon) error {
 
 	// 修改配置
 	handler.ShowLog = opts.ShowLog
+	glog.DefaultConfig.ShowCaller = false
 
 	// 添加解析响应体
 	p.AddAddon(new(decodeRule))

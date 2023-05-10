@@ -95,6 +95,12 @@ func main() {
 		Pattern: "^https://.js$",
 		Header:  []string{"Last-Modified", "Content-Type"},
 	})
+	
+	// 输出含有指定字符的 url
+	opts.AddHandler(&handler.FindContentRule{
+		Pattern: "", // 为空则为任何响应
+		Content: "百度一下",
+	})
 
 	mitmtools.Start(opts)
 }

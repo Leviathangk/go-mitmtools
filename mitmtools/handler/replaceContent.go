@@ -2,9 +2,9 @@ package handler
 
 import (
 	"fmt"
+	"github.com/Leviathangk/go-glog/glog"
 	"strings"
 
-	"github.com/Leviathangk/go-glog/glog"
 	"github.com/lqqyt2423/go-mitmproxy/proxy"
 )
 
