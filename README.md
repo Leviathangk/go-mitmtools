@@ -21,6 +21,7 @@ go get github.com/Leviathangk/go-mitmtools@latest
 - RemoveResponseHeader：移除指定请求头
 - AddScriptToHeadRule：在 html 标签（body、head，取其一）开始后插入一个 script 节点，里面是自己的代码
 - AddScriptToTailRule：在 html 标签（body、head，取其一）结束前插入一个 script 节点，里面是自己的代码
+- FindContentRule：输出含有指定字符的 url
 
 # 案例
 
