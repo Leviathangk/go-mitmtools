@@ -94,5 +94,29 @@ func main() {
 		KeyPattern: []string{"Bdqid", "Set-Cookie"},
 	})
 
+	// 修改响应头
+	opts.AddHandler(&resp.ChangeHeader{
+		Pattern: "^https://www.baidu.com/$",
+		Header:  map[string][]string{"Bdqid": {"baidu"}},
+	})
+
+	// 修改响应 cookie
+	opts.AddHandler(&resp.ChangeCookie{
+		Pattern: "^https://www.baidu.com/$",
+		Cookie:  map[string]string{"H_PS_PSSID": "baidu"},
+	})
+
+	// 修改请求头
+	opts.AddHandler(&req.ChangeHeader{
+		Pattern: "^http://127.0.0.1:8877/headerTest$",
+		Header:  map[string][]string{"X": {"qiandu"}},
+	})
+
+	// 修改请求 cookie
+	opts.AddHandler(&req.ChangeCookie{
+		Pattern: "^http://127.0.0.1:8877/cookieTest$",
+		Cookie:  map[string]string{"x": "qiandu"},
+	})
+
 	glog.Fatal(mitmtools.Start(opts))
 }

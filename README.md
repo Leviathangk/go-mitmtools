@@ -11,13 +11,15 @@ go get github.com/Leviathangk/go-mitmtools@latest
 
 # Handler
 
-主要有以下 Handler
+主要分为请求处理、响应处理
 
 ## req
 
 请求 handler
 
 - ShowReq：打印请求
+- ChangeHeader：修改请求头（注意大小写）
+- ChangeCookie：修改请求 Cookie（注意大小写）
 
 ## resp
 
@@ -34,6 +36,8 @@ go get github.com/Leviathangk/go-mitmtools@latest
 - FindContent：输出含有指定字符的 url
 - FindCookie：输出含有指定 响应 Cookie 的 url：匹配的就是 document.cookie 后的那部分
 - FindHeader：输出含有指定 响应头 的 url：匹配的是响应头的 key
+- ChangeHeader：修改响应头
+- ChangeCookie：修改响应 Cookie
 
 # 案例
 
@@ -132,6 +136,30 @@ func main() {
 	opts.AddHandler(&resp.FindHeader{
 		Pattern:    "^https://www.baidu.com/$",
 		KeyPattern: []string{"Bdqid", "Set-Cookie"},
+	})
+	
+	// 修改响应头
+	opts.AddHandler(&resp.ChangeHeader{
+		Pattern: "^https://www.baidu.com/$",
+		Header:  map[string][]string{"Bdqid": {"baidu"}},
+	})
+	
+	// 修改响应 cookie
+	opts.AddHandler(&resp.ChangeCookie{
+		Pattern: "^https://www.baidu.com/$",
+		Cookie:  map[string]string{"H_PS_PSSID": "baidu"},
+	})
+	
+	// 修改请求头
+	opts.AddHandler(&req.ChangeHeader{
+		Pattern: "^http://127.0.0.1:8877/headerTest$",
+		Header:  map[string][]string{"X": {"qiandu"}},
+	})
+	
+	// 修改请求 cookie
+	opts.AddHandler(&req.ChangeCookie{
+		Pattern: "^http://127.0.0.1:8877/cookieTest$",
+		Cookie:  map[string]string{"x": "qiandu"},
 	})
 
 	glog.Fatal(mitmtools.Start(opts))

@@ -17,7 +17,7 @@ type AddHeader struct {
 func (a *AddHeader) Responseheaders(f *proxy.Flow) {
 	if handler.IsMatch(a.Pattern, f.Request.URL.String()) {
 		for key, value := range a.Header {
-			f.Response.Header.Add(key, value)
+			f.Response.Header.Set(key, value)
 
 			if handler.ShowLog {
 				glog.Debugf("AddHeader 正在添加指定请求头：%s -> %s\n", key, value)
