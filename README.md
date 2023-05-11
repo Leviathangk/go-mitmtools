@@ -17,7 +17,7 @@ go get github.com/Leviathangk/go-mitmtools@latest
 
 请求 handler
 
-- ShowReq：
+- ShowReq：打印请求
 
 ## resp
 
