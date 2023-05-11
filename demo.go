@@ -59,7 +59,7 @@ func main() {
 	})
 
 	// 在尾部增加内容
-	opts.AddHandler(&resp.AddScriptToTail{
+	opts.AddHandler(&resp.AddContentToTail{
 		Pattern: "^https://tysf.cponline.cnipa.gov.cn/am/js/chunk-d7b9a01a.c7f12daa.js$",
 		Content: []byte("console.log(1);"),
 	})

@@ -26,7 +26,7 @@ go get github.com/Leviathangk/go-mitmtools@latest
 - ReplaceFile：替换全部响应体
 - ReplaceContent：替换部分响应体
 - AddContentToHead：在指定文件头部添加代码
-- AddScriptToTail：在指定文件尾部添加代码
+- AddContentToTail：在指定文件尾部添加代码
 - AddHeader：添加指定请求头
 - RemoveHeader：移除指定请求头
 - AddScriptToHead：在 html 标签（body、head，取其一）开始后插入一个 script 节点，里面是自己的代码
@@ -99,7 +99,7 @@ func main() {
 	})
 
 	// 在尾部增加内容
-	opts.AddHandler(&resp.AddScriptToTail{
+	opts.AddHandler(&resp.AddContentToTail{
 		Pattern: "^https://.js$",
 		Content: []byte("console.log(1);"),
 	})
