@@ -28,10 +28,10 @@ func main() {
 	})
 
 	// 文件、内容整体替换
-	opts.AddHandler(&resp.ReplaceFile{
-		Pattern: "https://www.baidu.com/",
-		Content: []byte("我不是百度"),
-	})
+	//opts.AddHandler(&resp.ReplaceFile{
+	//	Pattern: "https://www.baidu.com/",
+	//	Content: []byte("我不是百度"),
+	//})
 
 	// 内容查找替换
 	opts.AddHandler(&resp.ReplaceContent{
