@@ -2,6 +2,7 @@ package handler
 
 import (
 	"fmt"
+	"github.com/Leviathangk/go-mitmtools/mitmtools/handler/common"
 	"os"
 	"regexp"
 
@@ -9,15 +10,15 @@ import (
 	"github.com/lqqyt2423/go-mitmproxy/proxy"
 )
 
-type AddScriptToHeadRule struct {
-	Rule
+type AddScriptToHead struct {
+	common.baseHandler
 	Pattern     string // url 匹配规则
 	FilePath    string // 需要替换的文件路径（二选一）
 	Content     []byte // 需要替换的内容（二选一）
 	hasReadFile bool   // 是否已经读取过文件
 }
 
-func (a *AddScriptToHeadRule) Response(f *proxy.Flow) {
+func (a *AddScriptToHead) Response(f *proxy.Flow) {
 
 	// 替换响应
 	if IsMatch(a.Pattern, f.Request.URL.String()) {
@@ -42,32 +43,32 @@ func (a *AddScriptToHeadRule) Response(f *proxy.Flow) {
 			hasReplace = true
 
 			if ShowLog {
-				glog.Debugf("AddScriptToHeadRule 已修改响应结果：%s\n", f.Request.URL)
+				glog.Debugf("AddScriptToHead 已修改响应结果：%s\n", f.Request.URL)
 			}
 
 			break
 		}
 
 		if !hasReplace {
-			glog.Warnf("AddScriptToHeadRule 未找到标签：%v，未替换结果\n", scripts)
+			glog.Warnf("AddScriptToHead 未找到标签：%v，未替换结果\n", scripts)
 		}
 	}
 }
 
 // Check 检查是否符合启动要求
-func (a *AddScriptToHeadRule) Check() error {
+func (a *AddScriptToHead) Check() error {
 
 	// 读取文件
 	if len(a.Content) == 0 && !a.hasReadFile {
 		if a.FilePath != "" {
 			content, err := os.ReadFile(a.FilePath)
 			if err != nil {
-				return fmt.Errorf("AddScriptToHeadRule 文件读取出错：" + err.Error())
+				return fmt.Errorf("AddScriptToHead 文件读取出错：" + err.Error())
 			} else {
 				a.Content = content
 			}
 		} else {
-			return fmt.Errorf("AddScriptToHeadRule 未接收到需要替换的内容！")
+			return fmt.Errorf("AddScriptToHead 未接收到需要替换的内容！")
 		}
 		a.hasReadFile = true
 	}
@@ -75,15 +76,15 @@ func (a *AddScriptToHeadRule) Check() error {
 	return nil
 }
 
-type AddScriptToTailRule struct {
-	Rule
+type AddScriptToTail struct {
+	common.baseHandler
 	Pattern     string // url 匹配规则
 	FilePath    string // 需要替换的文件路径（二选一）
 	Content     []byte // 需要替换的内容（二选一）
 	hasReadFile bool   // 是否已经读取过文件
 }
 
-func (a *AddScriptToTailRule) Response(f *proxy.Flow) {
+func (a *AddScriptToTail) Response(f *proxy.Flow) {
 
 	// 替换响应
 	if IsMatch(a.Pattern, f.Request.URL.String()) {
@@ -109,32 +110,32 @@ func (a *AddScriptToTailRule) Response(f *proxy.Flow) {
 			hasReplace = true
 
 			if ShowLog {
-				glog.Debugf("AddScriptToTailRule 已修改响应结果：%s\n", f.Request.URL)
+				glog.Debugf("AddScriptToTail 已修改响应结果：%s\n", f.Request.URL)
 			}
 
 			break
 		}
 
 		if !hasReplace {
-			glog.Warnf("AddScriptToHeadRule 未找到标签：%v，未替换结果\n", scripts)
+			glog.Warnf("AddScriptToTail 未找到标签：%v，未替换结果\n", scripts)
 		}
 	}
 }
 
 // Check 检查是否符合启动要求
-func (a *AddScriptToTailRule) Check() error {
+func (a *AddScriptToTail) Check() error {
 
 	// 读取文件
 	if len(a.Content) == 0 && !a.hasReadFile {
 		if a.FilePath != "" {
 			content, err := os.ReadFile(a.FilePath)
 			if err != nil {
-				return fmt.Errorf("AddScriptToTailRule 文件读取出错：" + err.Error())
+				return fmt.Errorf("AddScriptToTail 文件读取出错：" + err.Error())
 			} else {
 				a.Content = content
 			}
 		} else {
-			return fmt.Errorf("AddScriptToTailRule 未接收到需要替换的内容！")
+			return fmt.Errorf("AddScriptToTail 未接收到需要替换的内容！")
 		}
 		a.hasReadFile = true
 	}

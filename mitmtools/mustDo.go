@@ -1,14 +1,13 @@
 package mitmtools
 
 import (
-	"github.com/Leviathangk/go-mitmtools/mitmtools/handler"
 	"strconv"
 
 	"github.com/lqqyt2423/go-mitmproxy/proxy"
 )
 
 type decodeRule struct {
-	handler.Rule
+	proxy.BaseAddon
 }
 
 // Response 响应体解码：避免重复解码
@@ -17,7 +16,7 @@ func (r *decodeRule) Response(f *proxy.Flow) {
 }
 
 type recalculateRule struct {
-	handler.Rule
+	proxy.BaseAddon
 }
 
 // Response 重新计算 Content-Length 长度

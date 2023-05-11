@@ -21,6 +21,10 @@ func main() {
 		ShowLog:           true,
 	}
 
+	opts.AddHandler(&handler.ShowReqRule{
+		Pattern: "",
+	})
+
 	// 文件、内容整体替换
 	// opts.AddHandler(&handler.ReplaceFileRule{
 	// 	Pattern: "https://www.baidu.com/",
