@@ -8,7 +8,7 @@ import (
 
 var ShowLog = false // 是否打印日志
 
-type baseHandler struct {
+type BaseHandler struct {
 	proxy.BaseAddon
 }
 

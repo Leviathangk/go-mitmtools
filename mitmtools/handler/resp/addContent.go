@@ -1,16 +1,16 @@
-package handler
+package resp
 
 import (
 	"fmt"
 	"github.com/Leviathangk/go-glog/glog"
-	"github.com/Leviathangk/go-mitmtools/mitmtools/handler/common"
+	"github.com/Leviathangk/go-mitmtools/mitmtools/handler"
 	"os"
 
 	"github.com/lqqyt2423/go-mitmproxy/proxy"
 )
 
 type AddContentToHead struct {
-	common.baseHandler
+	handler.BaseHandler
 	Pattern     string // url 匹配规则
 	FilePath    string // 需要替换的文件路径（二选一）
 	Content     []byte // 需要替换的内容（二选一）
@@ -20,10 +20,10 @@ type AddContentToHead struct {
 func (a *AddContentToHead) Response(f *proxy.Flow) {
 
 	// 替换响应
-	if IsMatch(a.Pattern, f.Request.URL.String()) {
+	if handler.IsMatch(a.Pattern, f.Request.URL.String()) {
 		f.Response.Body = append(a.Content, f.Response.Body...)
 
-		if ShowLog {
+		if handler.ShowLog {
 			glog.Debugf("AddContentToHead 已修改响应结果：%s\n", f.Request.URL)
 		}
 	}
@@ -51,7 +51,7 @@ func (a *AddContentToHead) Check() error {
 }
 
 type AddContentToTail struct {
-	common.baseHandler
+	handler.BaseHandler
 	Pattern     string // url 匹配规则
 	FilePath    string // 需要替换的文件路径（二选一）
 	Content     []byte // 需要替换的内容（二选一）
@@ -61,10 +61,10 @@ type AddContentToTail struct {
 func (a *AddContentToTail) Response(f *proxy.Flow) {
 
 	// 替换响应
-	if IsMatch(a.Pattern, f.Request.URL.String()) {
+	if handler.IsMatch(a.Pattern, f.Request.URL.String()) {
 		f.Response.Body = append(f.Response.Body, a.Content...)
 
-		if ShowLog {
+		if handler.ShowLog {
 			glog.Debugf("AddContentToTail 已修改响应结果：%s\n", f.Request.URL)
 		}
 	}

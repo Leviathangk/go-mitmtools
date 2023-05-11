@@ -1,15 +1,16 @@
-package handler
+package resp
 
 import (
 	"fmt"
 	"github.com/Leviathangk/go-glog/glog"
+	"github.com/Leviathangk/go-mitmtools/mitmtools/handler"
 	"os"
 
 	"github.com/lqqyt2423/go-mitmproxy/proxy"
 )
 
 type ReplaceFile struct {
-	baseHandler
+	handler.BaseHandler
 	Pattern     string // url 匹配规则
 	FilePath    string // 需要替换的文件路径（二选一）
 	Content     []byte // 需要替换的内容（二选一）
@@ -19,10 +20,10 @@ type ReplaceFile struct {
 func (r *ReplaceFile) Response(f *proxy.Flow) {
 
 	// 替换响应
-	if IsMatch(r.Pattern, f.Request.URL.String()) {
+	if handler.IsMatch(r.Pattern, f.Request.URL.String()) {
 		f.Response.Body = r.Content
 
-		if ShowLog {
+		if handler.ShowLog {
 			glog.Debugf("ReplaceFile 已修改响应结果：%s\n", f.Request.URL)
 		}
 	}

@@ -1,16 +1,16 @@
-package handler
+package resp
 
 import (
 	"fmt"
 	"github.com/Leviathangk/go-glog/glog"
-	"github.com/Leviathangk/go-mitmtools/mitmtools/handler/common"
+	"github.com/Leviathangk/go-mitmtools/mitmtools/handler"
 	"strings"
 
 	"github.com/lqqyt2423/go-mitmproxy/proxy"
 )
 
 type ReplaceContent struct {
-	common.baseHandler
+	handler.BaseHandler
 	Pattern     string // url 匹配规则
 	FindContent string // 查找的需要替换的内容：针对部分内容
 	ToContent   string // 替换后的新内容
@@ -19,10 +19,10 @@ type ReplaceContent struct {
 func (r *ReplaceContent) Response(f *proxy.Flow) {
 
 	// 替换响应
-	if IsMatch(r.Pattern, f.Request.URL.String()) {
+	if handler.IsMatch(r.Pattern, f.Request.URL.String()) {
 		f.Response.Body = []byte(strings.ReplaceAll(string(f.Response.Body), r.FindContent, r.ToContent))
 
-		if ShowLog {
+		if handler.ShowLog {
 			glog.Debugf("ReplaceContent 已修改响应结果：%s\n", f.Request.URL)
 		}
 	}

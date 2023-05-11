@@ -1,8 +1,8 @@
-package handler
+package resp
 
 import (
 	"fmt"
-	"github.com/Leviathangk/go-mitmtools/mitmtools/handler/common"
+	"github.com/Leviathangk/go-mitmtools/mitmtools/handler"
 	"os"
 	"regexp"
 
@@ -11,7 +11,7 @@ import (
 )
 
 type AddScriptToHead struct {
-	common.baseHandler
+	handler.BaseHandler
 	Pattern     string // url 匹配规则
 	FilePath    string // 需要替换的文件路径（二选一）
 	Content     []byte // 需要替换的内容（二选一）
@@ -21,7 +21,7 @@ type AddScriptToHead struct {
 func (a *AddScriptToHead) Response(f *proxy.Flow) {
 
 	// 替换响应
-	if IsMatch(a.Pattern, f.Request.URL.String()) {
+	if handler.IsMatch(a.Pattern, f.Request.URL.String()) {
 		// 按照标签查找找到就退出
 		scripts := []string{"<body>", "<head>"}
 		hasReplace := false
@@ -42,7 +42,7 @@ func (a *AddScriptToHead) Response(f *proxy.Flow) {
 
 			hasReplace = true
 
-			if ShowLog {
+			if handler.ShowLog {
 				glog.Debugf("AddScriptToHead 已修改响应结果：%s\n", f.Request.URL)
 			}
 
@@ -77,7 +77,7 @@ func (a *AddScriptToHead) Check() error {
 }
 
 type AddScriptToTail struct {
-	common.baseHandler
+	handler.BaseHandler
 	Pattern     string // url 匹配规则
 	FilePath    string // 需要替换的文件路径（二选一）
 	Content     []byte // 需要替换的内容（二选一）
@@ -87,7 +87,7 @@ type AddScriptToTail struct {
 func (a *AddScriptToTail) Response(f *proxy.Flow) {
 
 	// 替换响应
-	if IsMatch(a.Pattern, f.Request.URL.String()) {
+	if handler.IsMatch(a.Pattern, f.Request.URL.String()) {
 
 		// 按照标签查找找到就退出
 		scripts := []string{"</body>", "</head>"}
@@ -109,7 +109,7 @@ func (a *AddScriptToTail) Response(f *proxy.Flow) {
 
 			hasReplace = true
 
-			if ShowLog {
+			if handler.ShowLog {
 				glog.Debugf("AddScriptToTail 已修改响应结果：%s\n", f.Request.URL)
 			}
 
