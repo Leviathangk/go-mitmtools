@@ -2,9 +2,11 @@ package resp
 
 import (
 	"fmt"
-	"github.com/Leviathangk/go-mitmtools/mitmtools/handler"
 	"os"
 	"regexp"
+	"strings"
+
+	"github.com/Leviathangk/go-mitmtools/mitmtools/handler"
 
 	"github.com/Leviathangk/go-glog/glog"
 	"github.com/lqqyt2423/go-mitmproxy/proxy"
@@ -19,11 +21,15 @@ type AddScriptToHead struct {
 }
 
 func (a *AddScriptToHead) Response(f *proxy.Flow) {
+	// 判断是否是 html
+	if !IsHtml(f) {
+		return
+	}
 
 	// 替换响应
 	if handler.IsMatch(a.Pattern, f.Request.URL.String()) {
 		// 按照标签查找找到就退出
-		scripts := []string{"<body>", "<head>"}
+		scripts := []string{"<head>", "<body>"}
 		hasReplace := false
 		for _, script := range scripts {
 
@@ -85,6 +91,10 @@ type AddScriptToTail struct {
 }
 
 func (a *AddScriptToTail) Response(f *proxy.Flow) {
+	// 判断是否是 html
+	if !IsHtml(f) {
+		return
+	}
 
 	// 替换响应
 	if handler.IsMatch(a.Pattern, f.Request.URL.String()) {
@@ -141,4 +151,19 @@ func (a *AddScriptToTail) Check() error {
 	}
 
 	return nil
+}
+
+// 判断是否是 html 页面
+func IsHtml(f *proxy.Flow) bool {
+	// 获取响应类型
+	contentType := f.Response.Header.Values("Content-Type")
+
+	// 判断是否存在
+	for _, value := range contentType {
+		if strings.Contains(value, "text/html") {
+			return true
+		}
+	}
+
+	return false
 }
