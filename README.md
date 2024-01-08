@@ -25,8 +25,10 @@ go get github.com/Leviathangk/go-mitmtools@latest
 
 响应 handler
 
-- ReplaceFile：替换全部响应体
-- ReplaceContent：替换部分响应体
+- ReplaceFile：替换全部响应体（可记次，默认无限次）
+- ReplaceFileIfNoCookie：替换全部响应体（仅当无 cookie 时替换）
+- ReplaceContent：替换部分响应体（可记次，默认无限次）
+- ReplaceContentIfNoCookie：替换部分响应体（仅当无 cookie 时替换）
 - AddContentToHead：在指定文件头部添加代码
 - AddContentToTail：在指定文件尾部添加代码
 - AddHeader：添加指定请求头
@@ -72,13 +74,28 @@ func main() {
 	})
 
 	// 文件、内容整体替换
-	// opts.AddHandler(&resp.ReplaceFile{
-	// 	  Pattern: "https://www.baidu.com/",
-	// 	  Content: []byte("我不是百度"),
-	// })
+	opts.AddHandler(&resp.ReplaceFile{
+		Pattern: "https://www.baidu.com/",
+		Times:   1, // 0 为无限次
+		Content: []byte("我不是百度"),
+	})
+
+	// 文件、内容整体替换（仅当请求无 cookie 时）
+	opts.AddHandler(&resp.ReplaceFileIfNoCookie{
+		Pattern: "https://www.baidu.com/",
+		Content: []byte("我不是百度"),
+	})
 
 	// 内容查找替换
 	opts.AddHandler(&resp.ReplaceContent{
+		Pattern:     "^https://www.baidu.com/$",
+		Times:       1, // 0 为无限次
+		FindContent: "百度一下，你就知道",
+		ToContent:   "百度一下，你也不知道",
+	})
+
+	// 内容查找替换（仅当请求无 cookie 时）
+	opts.AddHandler(&resp.ReplaceContentIfNoCookie{
 		Pattern:     "^https://www.baidu.com/$",
 		FindContent: "百度一下，你就知道",
 		ToContent:   "百度一下，你也不知道",
@@ -98,25 +115,25 @@ func main() {
 
 	// 在头部增加内容
 	opts.AddHandler(&resp.AddContentToHead{
-		Pattern: "^https://.js$",
+		Pattern: "^https://tysf.cponline.cnipa.gov.cn/am/js/chunk-d7b9a01a.c7f12daa.js$",
 		Content: []byte("console.log(2);"),
 	})
 
 	// 在尾部增加内容
 	opts.AddHandler(&resp.AddContentToTail{
-		Pattern: "^https://.js$",
+		Pattern: "^https://tysf.cponline.cnipa.gov.cn/am/js/chunk-d7b9a01a.c7f12daa.js$",
 		Content: []byte("console.log(1);"),
 	})
 
 	// 添加请求头
 	opts.AddHandler(&resp.AddHeader{
-		Pattern: "^https://.js$",
+		Pattern: "^https://tysf.cponline.cnipa.gov.cn/am/js/chunk-d7b9a01a.c7f12daa.js$",
 		Header:  map[string]string{"k": "v"},
 	})
 
 	// 删除请求头
 	opts.AddHandler(&resp.RemoveHeader{
-		Pattern: "^https://.js$",
+		Pattern: "^https://tysf.cponline.cnipa.gov.cn/am/js/chunk-d7b9a01a.c7f12daa.js$",
 		Header:  []string{"Last-Modified", "Content-Type"},
 	})
 
@@ -137,31 +154,31 @@ func main() {
 		Pattern:    "^https://www.baidu.com/$",
 		KeyPattern: []string{"Bdqid", "Set-Cookie"},
 	})
-	
+
 	// 修改响应头
 	opts.AddHandler(&resp.ChangeHeader{
 		Pattern: "^https://www.baidu.com/$",
 		Header:  map[string][]string{"Bdqid": {"baidu"}},
 	})
-	
+
 	// 修改响应 cookie
 	opts.AddHandler(&resp.ChangeCookie{
 		Pattern: "^https://www.baidu.com/$",
 		Cookie:  map[string]string{"H_PS_PSSID": "baidu"},
 	})
-	
+
 	// 修改请求头
 	opts.AddHandler(&req.ChangeHeader{
 		Pattern: "^http://127.0.0.1:8877/headerTest$",
 		Header:  map[string][]string{"X": {"qiandu"}},
 	})
-	
+
 	// 修改请求 cookie
 	opts.AddHandler(&req.ChangeCookie{
 		Pattern: "^http://127.0.0.1:8877/cookieTest$",
 		Cookie:  map[string]string{"x": "qiandu"},
 	})
 
-	glog.Fatal(mitmtools.Start(opts))
+	glog.DLogger.Fatal(mitmtools.Start(opts))
 }
 ```

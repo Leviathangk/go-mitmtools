@@ -49,14 +49,14 @@ func (a *AddScriptToHead) Response(f *proxy.Flow) {
 			hasReplace = true
 
 			if handler.ShowLog {
-				glog.Debugf("AddScriptToHead 已修改响应结果：%s\n", f.Request.URL)
+				glog.DLogger.Debugf("AddScriptToHead 已修改响应结果：%s\n", f.Request.URL)
 			}
 
 			break
 		}
 
 		if !hasReplace {
-			glog.Warnf("AddScriptToHead 未找到标签：%v，未替换结果\n", scripts)
+			glog.DLogger.Warnf("AddScriptToHead 未找到标签：%v，未替换结果\n", scripts)
 		}
 	}
 }
@@ -120,14 +120,14 @@ func (a *AddScriptToTail) Response(f *proxy.Flow) {
 			hasReplace = true
 
 			if handler.ShowLog {
-				glog.Debugf("AddScriptToTail 已修改响应结果：%s\n", f.Request.URL)
+				glog.DLogger.Debugf("AddScriptToTail 已修改响应结果：%s\n", f.Request.URL)
 			}
 
 			break
 		}
 
 		if !hasReplace {
-			glog.Warnf("AddScriptToTail 未找到标签：%v，未替换结果\n", scripts)
+			glog.DLogger.Warnf("AddScriptToTail 未找到标签：%v，未替换结果\n", scripts)
 		}
 	}
 }
@@ -153,7 +153,7 @@ func (a *AddScriptToTail) Check() error {
 	return nil
 }
 
-// 判断是否是 html 页面
+// IsHtml 判断是否是 html 页面
 func IsHtml(f *proxy.Flow) bool {
 	// 获取响应类型
 	contentType := f.Response.Header.Values("Content-Type")

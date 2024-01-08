@@ -17,7 +17,7 @@ type FindContent struct {
 func (fin *FindContent) Response(f *proxy.Flow) {
 	if handler.IsMatch(fin.Pattern, f.Request.URL.String()) {
 		if handler.IsMatch(fin.ContentPattern, string(f.Response.Body)) {
-			glog.Debugf("FindContent 已查找到：%s -> %s\n", fin.ContentPattern, f.Request.URL)
+			glog.DLogger.Debugf("FindContent 已查找到：%s -> %s\n", fin.ContentPattern, f.Request.URL)
 		}
 	}
 }
@@ -46,7 +46,7 @@ func (fin *FindCookie) Response(f *proxy.Flow) {
 					for _, kp := range fin.KeyPattern {
 						if handler.IsMatch(kp, cookie) {
 							cookie = strings.Split(cookie, ";")[0]
-							glog.Debugf("FindCookie 已查找到：%s -> %s -> %s\n", kp, cookie, f.Request.URL)
+							glog.DLogger.Debugf("FindCookie 已查找到：%s -> %s -> %s\n", kp, cookie, f.Request.URL)
 						}
 					}
 				}
@@ -77,7 +77,7 @@ func (fin *FindHeader) Response(f *proxy.Flow) {
 		for key, value := range f.Response.Header {
 			for _, kp := range fin.KeyPattern {
 				if handler.IsMatch(kp, key) {
-					glog.Debugf("FindHeader 已查找到：%s -> %s -> %s\n", kp, value, f.Request.URL)
+					glog.DLogger.Debugf("FindHeader 已查找到：%s -> %s -> %s\n", kp, value, f.Request.URL)
 				}
 			}
 		}

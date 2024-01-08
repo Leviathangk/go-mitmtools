@@ -20,7 +20,7 @@ func (a *AddHeader) Responseheaders(f *proxy.Flow) {
 			f.Response.Header.Set(key, value)
 
 			if handler.ShowLog {
-				glog.Debugf("AddHeader 正在添加指定请求头：%s -> %s\n", key, value)
+				glog.DLogger.Debugf("AddHeader 正在添加指定请求头：%s -> %s\n", key, value)
 			}
 		}
 	}
@@ -49,7 +49,7 @@ func (r *RemoveHeader) Responseheaders(f *proxy.Flow) {
 				delete(f.Response.Header, key)
 
 				if handler.ShowLog {
-					glog.Debugf("RemoveHeader 正在移除指定请求头：%s\n", key)
+					glog.DLogger.Debugf("RemoveHeader 正在移除指定请求头：%s\n", key)
 				}
 			}
 		}

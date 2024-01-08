@@ -28,13 +28,28 @@ func main() {
 	})
 
 	// 文件、内容整体替换
-	//opts.AddHandler(&resp.ReplaceFile{
-	//	Pattern: "https://www.baidu.com/",
-	//	Content: []byte("我不是百度"),
-	//})
+	opts.AddHandler(&resp.ReplaceFile{
+		Pattern: "https://www.baidu.com/",
+		Times:   1, // 0 为无限次
+		Content: []byte("我不是百度"),
+	})
+
+	// 文件、内容整体替换（仅当请求无 cookie 时）
+	opts.AddHandler(&resp.ReplaceFileIfNoCookie{
+		Pattern: "https://www.baidu.com/",
+		Content: []byte("我不是百度"),
+	})
 
 	// 内容查找替换
 	opts.AddHandler(&resp.ReplaceContent{
+		Pattern:     "^https://www.baidu.com/$",
+		Times:       1, // 0 为无限次
+		FindContent: "百度一下，你就知道",
+		ToContent:   "百度一下，你也不知道",
+	})
+
+	// 内容查找替换（仅当请求无 cookie 时）
+	opts.AddHandler(&resp.ReplaceContentIfNoCookie{
 		Pattern:     "^https://www.baidu.com/$",
 		FindContent: "百度一下，你就知道",
 		ToContent:   "百度一下，你也不知道",
@@ -118,5 +133,5 @@ func main() {
 		Cookie:  map[string]string{"x": "qiandu"},
 	})
 
-	glog.Fatal(mitmtools.Start(opts))
+	glog.DLogger.Fatal(mitmtools.Start(opts))
 }

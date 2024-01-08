@@ -21,7 +21,7 @@ func (r *ChangeHeader) Requestheaders(f *proxy.Flow) {
 				f.Request.Header[key] = value
 
 				if handler.ShowLog {
-					glog.Debugf("ChangeHeader 正在替换指定请求头：%s -> %v\n", key, value)
+					glog.DLogger.Debugf("ChangeHeader 正在替换指定请求头：%s -> %v\n", key, value)
 				}
 			}
 		}
@@ -55,7 +55,7 @@ func (fin *ChangeCookie) Requestheaders(f *proxy.Flow) {
 							f.Request.Header[key][keyIndex] = newCookie
 
 							if handler.ShowLog {
-								glog.Debugf("ChangeCookie 已查找到：%s -> %s -> %s\n", newK, newCookie, f.Request.URL)
+								glog.DLogger.Debugf("ChangeCookie 已查找到：%s -> %s -> %s\n", newK, newCookie, f.Request.URL)
 							}
 						}
 					}

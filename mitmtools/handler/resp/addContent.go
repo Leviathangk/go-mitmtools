@@ -24,7 +24,7 @@ func (a *AddContentToHead) Response(f *proxy.Flow) {
 		f.Response.Body = append(a.Content, f.Response.Body...)
 
 		if handler.ShowLog {
-			glog.Debugf("AddContentToHead 已修改响应结果：%s\n", f.Request.URL)
+			glog.DLogger.Debugf("AddContentToHead 已修改响应结果：%s\n", f.Request.URL)
 		}
 	}
 }
@@ -65,7 +65,7 @@ func (a *AddContentToTail) Response(f *proxy.Flow) {
 		f.Response.Body = append(f.Response.Body, a.Content...)
 
 		if handler.ShowLog {
-			glog.Debugf("AddContentToTail 已修改响应结果：%s\n", f.Request.URL)
+			glog.DLogger.Debugf("AddContentToTail 已修改响应结果：%s\n", f.Request.URL)
 		}
 	}
 }

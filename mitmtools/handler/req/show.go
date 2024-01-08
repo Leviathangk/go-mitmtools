@@ -15,7 +15,7 @@ func (r *ShowReq) Response(f *proxy.Flow) {
 
 	// 替换响应
 	if handler.IsMatch(r.Pattern, f.Request.URL.String()) {
-		glog.Debugf("ShowReq 当前请求：%s\n", f.Request.URL)
+		glog.DLogger.Debugf("ShowReq 当前请求：%s\n", f.Request.URL)
 	}
 }
 
