@@ -1,9 +1,8 @@
 package mitmtools
 
 import (
-	"strconv"
-
 	"github.com/lqqyt2423/go-mitmproxy/proxy"
+	"strconv"
 )
 
 type decodeRule struct {

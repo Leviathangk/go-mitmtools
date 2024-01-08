@@ -6,24 +6,8 @@ import (
 	"github.com/lqqyt2423/go-mitmproxy/proxy"
 )
 
-type MitmConfig struct {
-	Debug             int
-	Addr              string
-	StreamLargeBodies int64 // 当请求或响应体大于此字节时，转为 stream 模式
-	SslInsecure       bool
-	CaRootPath        string
-	Upstream          string
-	ShowLog           bool // 是否打印日志
-	handlers          []handler.Addon
-}
-
-// AddHandler 添加规则
-func (m *MitmConfig) AddHandler(h handler.Addon) {
-	m.handlers = append(m.handlers, h)
-}
-
 // Start 启动入口
-func Start(opts *MitmConfig, handlers ...handler.Addon) error {
+func Start(opts *Config, handlers ...handler.Addon) error {
 	p, err := proxy.NewProxy(&proxy.Options{
 		Debug:             opts.Debug,
 		Addr:              opts.Addr,
