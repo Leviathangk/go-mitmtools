@@ -180,3 +180,39 @@ func main() {
 	glog.DLogger.Fatal(mitmtools.Start(config))
 }
 ```
+
+# 热重载
+
+使用热重载会大大的方便调试  
+这里推荐项目：[air](https://github.com/cosmtrek/air)  
+注意：这里是 install 而不是 get
+
+```
+go install github.com/cosmtrek/air@latest
+```
+
+## 配置文件
+
+这里可以直接使用 air init 方式创建，或者使用以下文件
+
+```
+# air.toml
+
+[build]
+# 指定入口文件
+entry = "main.go"
+# 监听目录
+watch = ["."]
+# 指定命令
+cmd = "go run main.go"
+# 延迟重新构建
+delay = 3000
+```
+
+# 执行
+
+直接在项目下面输入以下命令即可
+
+```
+air
+```
