@@ -194,7 +194,7 @@ go install github.com/cosmtrek/air@latest
 
 ## 配置文件
 
-这里可以直接使用 air init 方式创建，或者使用以下文件
+这里可以直接使用 air init 方式创建（推荐），或者使用以下文件
 
 ```
 # air.toml
@@ -206,6 +206,8 @@ entry = "main.go"
 watch = ["."]
 # 指定命令
 cmd = "go run main.go"
+# 监听的文件类型
+include_ext = ["go", "tpl", "tmpl", "html", "js"]
 # 延迟重新构建
 delay = 3000
 ```
