@@ -25,6 +25,12 @@ func main() {
 		Pattern: "",
 	})
 
+	// 修改请求 url（注意实际发出的编码的问题）
+	config.AddHandler(&req.ChangeUrl{
+		Pattern:    "wd=%E7%8B%97",
+		ReplaceVal: "wd=%E7%8C%AB",
+	})
+
 	// 文件、内容整体替换
 	config.AddHandler(&resp.ReplaceFile{
 		Pattern: "^https://www.baidu.com/$",

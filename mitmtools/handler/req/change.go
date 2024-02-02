@@ -5,6 +5,8 @@ import (
 	"github.com/Leviathangk/go-glog/glog"
 	"github.com/Leviathangk/go-mitmtools/mitmtools/handler"
 	"github.com/lqqyt2423/go-mitmproxy/proxy"
+	"net/url"
+	"regexp"
 	"strings"
 )
 
@@ -71,6 +73,40 @@ func (fin *ChangeCookie) Check() error {
 
 	if len(fin.Cookie) == 0 {
 		return fmt.Errorf("ChangeCookie 未接收到需要查找的内容！")
+	}
+
+	return nil
+}
+
+type ChangeUrl struct {
+	handler.BaseHandler
+	Pattern    string // url 匹配规则
+	ReplaceVal string // 替换的值
+}
+
+func (r *ChangeUrl) Request(f *proxy.Flow) {
+	reqUrl := f.Request.URL.String()
+
+	if handler.IsMatch(r.Pattern, reqUrl) {
+		fmt.Println(reqUrl)
+		// 匹配替换
+		re := regexp.MustCompile(r.Pattern)
+		newUrlStr := re.ReplaceAllString(reqUrl, r.ReplaceVal)
+		newUrl, err := url.Parse(newUrlStr)
+		if err == nil {
+			f.Request.URL = newUrl
+			glog.DLogger.Debugf("URL 替换成功为：%s\n", newUrl.String())
+		} else {
+			glog.DLogger.Warnf("URL 替换失败：%s\n", err.Error())
+		}
+	}
+}
+
+// Check 检查是否符合启动要求
+func (r *ChangeUrl) Check() error {
+
+	if r.ReplaceVal == "" {
+		return fmt.Errorf("ChangeUrl 接收到需要替换的 ReplaceVal！")
 	}
 
 	return nil

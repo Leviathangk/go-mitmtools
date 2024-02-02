@@ -19,6 +19,7 @@ go get github.com/Leviathangk/go-mitmtools@latest
 请求 handler
 
 - ShowReq：打印请求
+- ChangeUrl：修改请求url（注意编码问题）
 - ChangeHeader：修改请求头（注意大小写）
 - ChangeCookie：修改请求 Cookie（注意大小写）
 
@@ -70,6 +71,12 @@ func main() {
 	// 打印请求
 	config.AddHandler(&req.ShowReq{
 		Pattern: "",
+	})
+	
+    // 修改请求 url（注意实际发出的编码的问题）
+	config.AddHandler(&req.ChangeUrl{
+		Pattern:    "wd=%E7%8B%97",
+		ReplaceVal: "wd=%E7%8C%AB",
 	})
 
 	// 文件、内容整体替换
@@ -197,19 +204,52 @@ go install github.com/cosmtrek/air@latest
 这里可以直接使用 air init 方式创建（推荐），或者使用以下文件
 
 ```
-# air.toml
+root = "."
+testdata_dir = "testdata"
+tmp_dir = "tmp"
 
 [build]
-# 指定入口文件
-entry = "main.go"
-# 监听目录
-watch = ["."]
-# 指定命令
-cmd = "go run main.go"
-# 监听的文件类型
-include_ext = ["go", "tpl", "tmpl", "html", "js"]
-# 延迟重新构建
-delay = 3000
+  args_bin = []
+  bin = "tmp\\main.exe"
+  cmd = "go build -o ./tmp/main.exe ."
+  delay = 2000
+  exclude_dir = ["assets", "tmp", "vendor", "testdata"]
+  exclude_file = []
+  exclude_regex = ["_test.go"]
+  exclude_unchanged = false
+  follow_symlink = false
+  full_bin = ""
+  include_dir = []
+  include_ext = ["go", "tpl", "tmpl", "html", "js"]
+  include_file = []
+  kill_delay = "0s"
+  log = "build-errors.log"
+  poll = false
+  poll_interval = 0
+  post_cmd = []
+  pre_cmd = []
+  rerun = false
+  rerun_delay = 500
+  send_interrupt = false
+  stop_on_error = false
+
+[color]
+  app = ""
+  build = "yellow"
+  main = "magenta"
+  runner = "green"
+  watcher = "cyan"
+
+[log]
+  main_only = false
+  time = false
+
+[misc]
+  clean_on_exit = false
+
+[screen]
+  clear_on_rebuild = false
+  keep_scroll = true
 ```
 
 # 执行
