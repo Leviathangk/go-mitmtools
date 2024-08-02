@@ -3,6 +3,7 @@ package mitmtools
 import (
 	"github.com/Leviathangk/go-mitmtools/mitmtools/handler"
 	"strconv"
+	"strings"
 )
 
 const (
@@ -57,6 +58,10 @@ func AddHandler(h handler.Addon) SetFunc {
 
 // SetProxy 设置代理
 func SetProxy(p string) SetFunc {
+	if !strings.HasPrefix(p, "http") {
+		p = "http://" + p
+	}
+
 	return func(c *Config) {
 		c.Upstream = p
 	}
