@@ -1,6 +1,7 @@
 # 简介
 
 Mitmtools 是用 go 语言实现的方便处理响应的工具集  
+根据 [go-mitmproxy](https://github.com/lqqyt2423/go-mitmproxy) 进行二次封装  
 通过正则匹配 url 并进行对应的处理  
 如果需要热重载，请看下面的热重载篇目
 
