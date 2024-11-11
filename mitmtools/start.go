@@ -2,7 +2,7 @@ package mitmtools
 
 import (
 	"github.com/Leviathangk/go-glog/glog"
-	"github.com/Leviathangk/go-mitmtools/mitmtools/handler"
+	"github.com/Leviathangk/go-mitmtools/handler"
 	"github.com/lqqyt2423/go-mitmproxy/proxy"
 )
 
@@ -25,11 +25,11 @@ func Start(opts *Config, handlers ...handler.Addon) error {
 	glog.DLogger.ShowCaller = false
 
 	// 添加解析响应体
-	p.AddAddon(new(decodeRule))
+	p.AddAddon(new(handler.DecodeRule))
 
 	// 添加规则
 	for _, h := range handlers {
-		err := h.Check()
+		err = h.Check()
 		if err != nil {
 			return err
 		}
@@ -39,7 +39,7 @@ func Start(opts *Config, handlers ...handler.Addon) error {
 
 	// 添加规则
 	for _, h := range opts.handlers {
-		err := h.Check()
+		err = h.Check()
 		if err != nil {
 			return err
 		}
@@ -48,7 +48,7 @@ func Start(opts *Config, handlers ...handler.Addon) error {
 	}
 
 	// 添加响应体重新计算
-	p.AddAddon(new(recalculateRule))
+	p.AddAddon(new(handler.RecalculateRule))
 
 	glog.DLogger.Fatal(p.Start())
 

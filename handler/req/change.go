@@ -3,7 +3,7 @@ package req
 import (
 	"fmt"
 	"github.com/Leviathangk/go-glog/glog"
-	"github.com/Leviathangk/go-mitmtools/mitmtools/handler"
+	"github.com/Leviathangk/go-mitmtools/handler"
 	"github.com/lqqyt2423/go-mitmproxy/proxy"
 	"net/url"
 	"regexp"
@@ -22,7 +22,7 @@ func (r *ChangeHeader) Requestheaders(f *proxy.Flow) {
 			if _, ok := f.Request.Header[key]; ok {
 				f.Request.Header[key] = value
 
-				if handler.ShowLog {
+				if handler.ShowLog || r.ShowLog {
 					glog.DLogger.Debugf("ChangeHeader 正在替换指定请求头：%s -> %v\n", key, value)
 				}
 			}
@@ -56,7 +56,7 @@ func (fin *ChangeCookie) Requestheaders(f *proxy.Flow) {
 							newCookie := newK + "=" + newV
 							f.Request.Header[key][keyIndex] = newCookie
 
-							if handler.ShowLog {
+							if handler.ShowLog || fin.ShowLog {
 								glog.DLogger.Debugf("ChangeCookie 已查找到：%s -> %s -> %s\n", newK, newCookie, f.Request.URL)
 							}
 						}
@@ -95,7 +95,9 @@ func (r *ChangeUrl) Request(f *proxy.Flow) {
 		newUrl, err := url.Parse(newUrlStr)
 		if err == nil {
 			f.Request.URL = newUrl
-			glog.DLogger.Debugf("URL 替换成功为：%s\n", newUrl.String())
+			if handler.ShowLog || r.ShowLog {
+				glog.DLogger.Debugf("URL 替换成功为：%s\n", newUrl.String())
+			}
 		} else {
 			glog.DLogger.Warnf("URL 替换失败：%s\n", err.Error())
 		}

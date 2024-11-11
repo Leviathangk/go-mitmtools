@@ -3,7 +3,7 @@ package resp
 import (
 	"fmt"
 	"github.com/Leviathangk/go-glog/glog"
-	"github.com/Leviathangk/go-mitmtools/mitmtools/handler"
+	"github.com/Leviathangk/go-mitmtools/handler"
 	"github.com/lqqyt2423/go-mitmproxy/proxy"
 	"strings"
 )
@@ -20,7 +20,7 @@ func (r *ChangeHeader) Responseheaders(f *proxy.Flow) {
 			if _, ok := f.Response.Header[key]; ok {
 				f.Response.Header[key] = value
 
-				if handler.ShowLog {
+				if handler.ShowLog || r.ShowLog {
 					glog.DLogger.Debugf("ChangeHeader 正在替换指定请求头：%s -> %v\n", key, value)
 				}
 			}
@@ -57,7 +57,7 @@ func (fin *ChangeCookie) Response(f *proxy.Flow) {
 
 							f.Response.Header[key][keyIndex] = cookie
 
-							if handler.ShowLog {
+							if handler.ShowLog || fin.ShowLog {
 								glog.DLogger.Debugf("ChangeCookie 已查找到：%s -> %s -> %s\n", newK, cookie, f.Request.URL)
 							}
 						}

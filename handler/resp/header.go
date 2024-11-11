@@ -3,7 +3,7 @@ package resp
 import (
 	"fmt"
 	"github.com/Leviathangk/go-glog/glog"
-	"github.com/Leviathangk/go-mitmtools/mitmtools/handler"
+	"github.com/Leviathangk/go-mitmtools/handler"
 
 	"github.com/lqqyt2423/go-mitmproxy/proxy"
 )
@@ -19,7 +19,7 @@ func (a *AddHeader) Responseheaders(f *proxy.Flow) {
 		for key, value := range a.Header {
 			f.Response.Header.Set(key, value)
 
-			if handler.ShowLog {
+			if handler.ShowLog || a.ShowLog {
 				glog.DLogger.Debugf("AddHeader 正在添加指定请求头：%s -> %s\n", key, value)
 			}
 		}
@@ -48,7 +48,7 @@ func (r *RemoveHeader) Responseheaders(f *proxy.Flow) {
 			if _, ok := f.Response.Header[key]; ok {
 				delete(f.Response.Header, key)
 
-				if handler.ShowLog {
+				if handler.ShowLog || r.ShowLog {
 					glog.DLogger.Debugf("RemoveHeader 正在移除指定请求头：%s\n", key)
 				}
 			}

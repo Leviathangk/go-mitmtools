@@ -6,7 +6,7 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/Leviathangk/go-mitmtools/mitmtools/handler"
+	"github.com/Leviathangk/go-mitmtools/handler"
 
 	"github.com/Leviathangk/go-glog/glog"
 	"github.com/lqqyt2423/go-mitmproxy/proxy"
@@ -48,7 +48,7 @@ func (a *AddScriptToHead) Response(f *proxy.Flow) {
 
 			hasReplace = true
 
-			if handler.ShowLog {
+			if handler.ShowLog || a.ShowLog {
 				glog.DLogger.Debugf("AddScriptToHead 已修改响应结果：%s\n", f.Request.URL)
 			}
 
@@ -119,7 +119,7 @@ func (a *AddScriptToTail) Response(f *proxy.Flow) {
 
 			hasReplace = true
 
-			if handler.ShowLog {
+			if handler.ShowLog || a.ShowLog {
 				glog.DLogger.Debugf("AddScriptToTail 已修改响应结果：%s\n", f.Request.URL)
 			}
 

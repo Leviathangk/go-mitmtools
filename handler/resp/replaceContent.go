@@ -3,7 +3,7 @@ package resp
 import (
 	"fmt"
 	"github.com/Leviathangk/go-glog/glog"
-	"github.com/Leviathangk/go-mitmtools/mitmtools/handler"
+	"github.com/Leviathangk/go-mitmtools/handler"
 	"strings"
 
 	"github.com/lqqyt2423/go-mitmproxy/proxy"
@@ -28,12 +28,12 @@ func (r *ReplaceContent) Response(f *proxy.Flow) {
 				return
 			}
 			r.timesRecord += 1
-			glog.DLogger.Debugf("当前替换次数 +1 为：%d\n", r.timesRecord)
+			glog.DLogger.Debugf("当前替换次数：%d-%d\n", r.Times, r.timesRecord)
 		}
 
 		f.Response.Body = []byte(strings.ReplaceAll(string(f.Response.Body), r.FindContent, r.ToContent))
 
-		if handler.ShowLog {
+		if handler.ShowLog || r.ShowLog {
 			glog.DLogger.Debugf("ReplaceContent 已修改响应结果：%s\n", f.Request.URL)
 		}
 	}
@@ -61,13 +61,13 @@ func (r *ReplaceContentIfNoCookie) Response(f *proxy.Flow) {
 
 	// 替换响应
 	if handler.IsMatch(r.Pattern, f.Request.URL.String()) {
-		if cookieExists(f) {
+		if handler.CookieExists(f) {
 			glog.DLogger.Warnf("当前存在 cookie 不进行替换：%s\n", f.Request.Header.Get("cookie"))
 			return
 		}
 		f.Response.Body = []byte(strings.ReplaceAll(string(f.Response.Body), r.FindContent, r.ToContent))
 
-		if handler.ShowLog {
+		if handler.ShowLog || r.ShowLog {
 			glog.DLogger.Debugf("ReplaceContent 已修改响应结果：%s\n", f.Request.URL)
 		}
 	}

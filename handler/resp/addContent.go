@@ -3,7 +3,7 @@ package resp
 import (
 	"fmt"
 	"github.com/Leviathangk/go-glog/glog"
-	"github.com/Leviathangk/go-mitmtools/mitmtools/handler"
+	"github.com/Leviathangk/go-mitmtools/handler"
 	"os"
 
 	"github.com/lqqyt2423/go-mitmproxy/proxy"
@@ -23,7 +23,7 @@ func (a *AddContentToHead) Response(f *proxy.Flow) {
 	if handler.IsMatch(a.Pattern, f.Request.URL.String()) {
 		f.Response.Body = append(a.Content, f.Response.Body...)
 
-		if handler.ShowLog {
+		if handler.ShowLog || a.ShowLog {
 			glog.DLogger.Debugf("AddContentToHead 已修改响应结果：%s\n", f.Request.URL)
 		}
 	}
@@ -64,7 +64,7 @@ func (a *AddContentToTail) Response(f *proxy.Flow) {
 	if handler.IsMatch(a.Pattern, f.Request.URL.String()) {
 		f.Response.Body = append(f.Response.Body, a.Content...)
 
-		if handler.ShowLog {
+		if handler.ShowLog || a.ShowLog {
 			glog.DLogger.Debugf("AddContentToTail 已修改响应结果：%s\n", f.Request.URL)
 		}
 	}

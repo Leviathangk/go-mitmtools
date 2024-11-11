@@ -1,21 +1,9 @@
 package handler
 
 import (
-	"regexp"
-
 	"github.com/lqqyt2423/go-mitmproxy/proxy"
+	"regexp"
 )
-
-var ShowLog = false // 是否打印日志
-
-type BaseHandler struct {
-	proxy.BaseAddon
-}
-
-type Addon interface {
-	proxy.Addon
-	Check() error // 检查输入参数
-}
 
 // IsMatch 判断是否匹配指定字符串
 func IsMatch(pattern, s string) bool {
@@ -25,4 +13,9 @@ func IsMatch(pattern, s string) bool {
 	}
 
 	return res
+}
+
+// CookieExists 判读请求头有无 cookie
+func CookieExists(f *proxy.Flow) bool {
+	return f.Request.Header.Get("cookie") != ""
 }
