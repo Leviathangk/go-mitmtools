@@ -63,3 +63,10 @@ func SetShowLog(b bool) SetFunc {
 		c.ShowLog = b
 	}
 }
+
+// SetCaRootPath 设置证书路径，文件夹路径，非文件
+func SetCaRootPath(p string) SetFunc {
+	return func(c *Config) {
+		c.CaRootPath = p
+	}
+}
