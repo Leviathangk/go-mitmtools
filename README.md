@@ -268,3 +268,59 @@ air
 ```
 go test -v demo_test.go
 ```
+
+# 创建自己的项目
+
+创建项目以按需处理
+
+## 安装依赖
+
+```
+go mod init demo
+go get github.com/Leviathangk/go-mitmtools@latest
+```
+
+## 编写 main.go
+
+```
+package main
+
+import (
+	"github.com/Leviathangk/go-glog/glog"
+	"github.com/Leviathangk/go-mitmtools/handler/req"
+	"github.com/Leviathangk/go-mitmtools/mitmtools"
+)
+
+const (
+	Port     = 8866
+	ProxyUrl = ""
+)
+
+func main() {
+	config := mitmtools.NewConfig(
+		mitmtools.SetPort(Port),
+		mitmtools.SetSslInsecure(true),
+		mitmtools.SetProxy(ProxyUrl),
+		mitmtools.SetShowLog(true),
+	)
+
+	// 打印请求
+	config.AddHandler(&req.ShowReq{})
+
+	glog.DLogger.Fatalln(mitmtools.Start(config))
+}
+```
+
+## 安装依赖 2
+
+可能缺少模块，需要执行一遍
+
+```
+go mod tidy
+```
+
+## 执行
+
+```
+go build
+```
